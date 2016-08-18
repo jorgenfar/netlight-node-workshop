@@ -32,6 +32,15 @@
     Using npm install <package-name> you can install dependencies directly in your project.
     Run the command `npm install --save slackbots`. The dependency will now be added to your package.json
 
+    Its a smart idea to add a .gitignore file specify that dependencies are not pushed to version management.
+
     You can browse npmjs.org to search for packages, and read documentation and visit github repositories.
 
     What is npm? npm is a package manager that makes it easy for javascript developers to share and reuse code.
+
+  1.E - Add index.js
+    The index.js will serve as our entrypoint into our tiny application.
+    Specify main in package.json as index.js to document how to run your module.
+
+    Write `console.log('Hello World')` in the index.js, and run the command node index.js in terminal.
+    You now have your first tiny node application
