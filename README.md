@@ -54,3 +54,42 @@
 
     The starwars names are in a list, and if you specify the index (position) of element you want to access in the list, you can write it out directly.
     Try changing the print command to `console.log(starwars[0]);` and rerun your application.
+
+  1.G - Setup slackbot
+    Visit https://netlight-nodeworkshop.slack.com/services/new/bot, and generate integration key.
+    Copy these lines into index.js, and change <ADD_TOKEN> with your own token, <NAME_OF_BOT> with a name of your choosing and <ADD_YOUR__USERNAME> with your
+    own slack username. Run the `node index.js` command, and see that the bot says hello in general chat. Try to type starwars into a private chat with
+    your bot, and see that it respons with a starwars name
+    `
+    const starwars = require('./starwars');
+    const SlackBot = require('slackbots');
+
+    function getRandom (max, min) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min) + min);
+    }
+
+    // create a bot
+    const bot = new SlackBot({
+        token: '<ADD_TOKEN>', // Add a bot https://my.slack.com/services/new/bot and put the token
+        name: '<ADD_BOT_NAME>'
+    });
+
+    bot.on('start', function() {
+        // define channel, where bot exist. You can adjust it there https://my.slack.com/services
+        bot.postMessageToChannel('general', 'Hello!');
+    });
+
+    /**
+     * @param {object} data
+     */
+    bot.on('message', function(data) {
+        if (data.text === 'starwars') {
+          var randomNumber = getRandom(starwars.length - 1, 0);
+          bot.postMessageToUser('<YOUR_USERNAME>', starwars[randomNumber]).always(function(data) {
+            console.log(data);
+          });
+        }
+    });
+    `
