@@ -27,3 +27,11 @@
     and can be used to specify npm scrips. Is serves as documentation, lets you version your project and makes your project reproducible to others
 
     Remember, node needs to be installed before this will work, as npm follows with node installation.
+
+  1.D - Install dependencies using npm
+    Using npm install <package-name> you can install dependencies directly in your project.
+    Run the command `npm install --save slackbots`. The dependency will now be added to your package.json
+
+    You can browse npmjs.org to search for packages, and read documentation and visit github repositories.
+
+    What is npm? npm is a package manager that makes it easy for javascript developers to share and reuse code.
