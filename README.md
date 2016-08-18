@@ -18,3 +18,12 @@
     git push -u origin master
 
     A readme.md is like a repository documentation, where you specify how to use this module.
+
+  1.C - Run `npm init`
+    Write `npm init` in the terminal. This command interactively creates a package.json file in your project,
+    letting you specify several options for your new project.
+
+    The package.json file will be crucial in your project, as its a manifest of your project metadata, dependencies,
+    and can be used to specify npm scrips. Is serves as documentation, lets you version your project and makes your project reproducible to others
+
+    Remember, node needs to be installed before this will work, as npm follows with node installation.

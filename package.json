@@ -1,0 +1,19 @@
+{
+  "name": "netlight-node-workshop",
+  "version": "1.0.0",
+  "description": "nodejs workshop",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jorgenfar/netlight-node-workshop.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jorgenfar/netlight-node-workshop/issues"
+  },
+  "homepage": "https://github.com/jorgenfar/netlight-node-workshop#readme"
+}
