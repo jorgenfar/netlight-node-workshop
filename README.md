@@ -44,3 +44,13 @@
 
     Write `console.log('Hello World')` in the index.js, and run the command node index.js in terminal.
     You now have your first tiny node application
+
+  1.F - Read from json file
+    Copy the file https://github.com/kentcdodds/starwars-names/blob/master/src/starwars-names.json into a new file in your project called starwars.json
+    and require it in your index.js by adding `const starwars = require('./starwars');` in the top of your file.
+    Change your hello world logging to `console.log(starwars);`, and rerun the command: `node index.js`
+
+    JSON is a format that uses human-readable text to transmit data objects with key value pairs.
+
+    The starwars names are in a list, and if you specify the index (position) of element you want to access in the list, you can write it out directly.
+    Try changing the print command to `console.log(starwars[0]);` and rerun your application.
