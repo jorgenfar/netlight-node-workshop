@@ -1,5 +1,7 @@
-const starwars = require('./starwars');
 const SlackBot = require('slackbots');
+
+const starwars = require('./starwars');
+const compliments = require('./compliments');
 
 function getRandom (max, min) {
   min = Math.ceil(min);
@@ -9,8 +11,8 @@ function getRandom (max, min) {
 
 // create a bot
 const bot = new SlackBot({
-    token: '<ADD_TOKEN>', // Add a bot https://my.slack.com/services/new/bot and put the token
-    name: '<ADD_BOT_NAME>'
+    token: process.env.SLACK_TOKEN, // Add a bot https://my.slack.com/services/new/bot and put the token
+    name: 'Jørgenbot'
 });
 
 bot.on('start', function() {
@@ -28,4 +30,14 @@ bot.on('message', function(data) {
         console.log(data);
       });
     }
+});
+
+bot.on('message', function(data) {
+  const pattern = /[Cc]ompliment <@(\w+)>/
+  if (data.text && data.text.match(pattern)) {
+    const user = data.text.match(pattern)[1];
+    if (user) {
+      bot.postMessage(user, compliments.getCompliment());
+    }
+  }
 });
