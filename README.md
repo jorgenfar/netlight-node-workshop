@@ -160,7 +160,7 @@ Examples of this can be a bot that:
 
 See the entire API that `slackbots` provides [here](https://github.com/mishk0/slack-bot-api).
 
-## 2. Run the our bot in the cloud
+## 2. Run the bot in the cloud
 
 ## 3. Creating a npm package
 
