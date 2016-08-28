@@ -154,15 +154,35 @@ We now have the basic building blocks to improve our bot making it do more usefu
 
 Examples of this can be a bot that:
 - giving suggestions on places to eat
-- giving complements to other users
-- matching consultants that want to eat lunch with each other
+- giving compliments to other users
+- match consultants that want to eat lunch with each other
 - give information about the weather
 
-See the entire API that `slackbots` provides [here](https://github.com/mishk0/slack-bot-api).
+See the entire API that `slackbots` provides [here](https://github.com/mishk0/slack-bot-api) for inspiration on what can be done using this type of Slack bots.
+
+Let's create a Slack bot that gives complements as an example.
+---
+Added base to build on
+---
+We start with creating a list of compliments that our bot will select one at random from and give to a specific user.
+
+```javascript
+// Everything above this line from before will be the same
+const compliments = [
+  'You are beautiful',
+  "Your smile is contagious."
+]
+
+bot.on('message', (data) => {
+  
+});
+```
 
 ## 2. Run the bot in the cloud
+We now have a small little bot that runs on our computer. To make it a bit more practical we would like to run it in the cloud instead.
 
 ## 3. Creating a npm package
+Let's say that we see a need to reuse our compliments in some outer place. We will take refactor our project and create a separate module that we will publish as a package to npm.
 
 ## 4. Create a browser version of our package
 We will now go through what we need to do if we want to use our package in the browser and not only in Node.js.
@@ -185,7 +205,13 @@ module.exports = {
     path: path.join(__dirname, "umd"),
     filename: "Complements.min.js",
     library: "Complements",
-    libraryTarget: "umd",
+    libraryTarget: "umd"
+  },
+  module: {
+    loaders: [{
+      test: /\.json$/,
+      loader: 'json'
+    }]
   }
 };
 ```
@@ -228,6 +254,8 @@ Let's create a `index.html` page that will include our created UMD build as a te
   </body>
 </html>
 ```
+
+Now we will have a random compliment each time we reload our browser.
 
 ### E. Prepare for publish
 We want to make sure we do not add compiled code to git, following best practices. We can do this by adding the `umd` directory to our `.gitignore`.

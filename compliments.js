@@ -1,10 +1,9 @@
-const complimentsJson = require('./compliments.json');
+const compliments = require('./compliments.json');
 
-function getCompliment() {
-  const { compliments } = complimentsJson;
+function random() {
   return compliments[Math.floor(Math.random()*compliments.length)];
 }
 
 module.exports = {
-  getCompliment,
+  random: random
 };
