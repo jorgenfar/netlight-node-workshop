@@ -165,3 +165,93 @@ See the entire API that `slackbots` provides [here](https://github.com/mishk0/sl
 ## 3. Creating a npm package
 
 ## 4. Create a browser version of our package
+We will now go through what we need to do if we want to use our package in the browser and not only in Node.js.
+
+### A. Add Webpack to our project
+We begin with adding Webpack to our project that will manage the JavaScript for us.
+
+```bash
+$ npm install webpack --save-dev
+```
+
+### B. Create a minimal configuration
+Create a file with the following content named `webpack.config.js` in the root of the project.
+```javascript
+const path = require('path');
+
+module.exports = {
+  entry: './index.js',
+  output: {
+    path: path.join(__dirname, "umd"),
+    filename: "Complements.min.js",
+    library: "Complements",
+    libraryTarget: "umd",
+  }
+};
+```
+
+### C. Run Webpack to build our code.
+Add a npm script in `package.json` to make it easier to build our project.
+
+```json
+...
+"scripts": {
+  "build": "webpack -p"
+},
+...
+```
+
+Using `-p` will tell Webpack that we want to minify the code using UglifyJs.
+
+We can now build our project by running the newly created npm script.
+
+```bash
+$ npm run build
+```
+
+We will now have a new folder in our project named `umd` where the browser compatible code is.
+
+### D. Use our module in the browser
+Let's create a `index.html` page that will include our created UMD build as a test.
+
+```html
+<html>
+  <head>
+    <title>Netlight Node Workshop</title>
+  </head>
+  <body>
+    <div id="compliment"></div>
+    <script src="umd/Compliments.min.js"></script>
+    <script>
+      document.getElementById('compliment').innerHTML = Compliments.random();
+    </script>
+  </body>
+</html>
+```
+
+### E. Prepare for publish
+We want to make sure we do not add compiled code to git, following best practices. We can do this by adding the `umd` directory to our `.gitignore`.
+
+```git
+umd
+```
+
+We do however want to publish it to npm and we can use the `files` field in the `package.json` to do this.
+```json
+...
+"files": [
+  "index.js",
+  "umd"
+],
+...
+```
+
+We can now go ahead and publish our package again.
+
+```bash
+$ npm version minor
+$ npm publish
+```
+
+### F. Replace our local reference with a CDN
+If we would like to use this module in a website we might want to use a CDN to do this. A prefect match for us is [npmcdn.com](https://npmcdn.com) since we have published our code to npm.
