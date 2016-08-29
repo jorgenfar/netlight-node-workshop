@@ -12,7 +12,7 @@ function getRandom (max, min) {
 // create a bot
 const bot = new SlackBot({
     token: process.env.SLACK_TOKEN, // Add a bot https://my.slack.com/services/new/bot and put the token
-    name: 'Jørgenbot'
+    name: 'Complimentbot'
 });
 
 bot.on('start', function() {
