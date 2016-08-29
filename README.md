@@ -453,29 +453,39 @@ const { random } = require('@<YOUR NPM USERNAME>/compliments');
 We will now go through what we need to do if we want to use our package in the browser and not only in Node.js.
 
 ### A. Add Webpack to our project
-We begin with adding Webpack to our project that will manage the JavaScript for us.
+We begin with adding Webpack and `json-loader` to our project that will manage the JavaScript and JSON for us.
 
 ```bash
-$ npm install webpack --save-dev
+$ npm install webpack json-loader --save-dev
 ```
 
-### B. Create a minimal configuration
+### B. Create a minimal Webpack configuration
 Create a file with the following content named `webpack.config.js` in the root of the project.
 ```javascript
 const path = require('path');
 
 module.exports = {
-  entry: './index.js',
+  // The file that Webpack should load
+  entry: './compliments.js',
+
+  // Where the output should be placed and named
   output: {
+    // The directory to add the built files to, __dirname is the directory that the current file is inside
     path: path.join(__dirname, "umd"),
-    filename: "Complements.min.js",
-    library: "Complements",
+    // The filename for the built file
+    filename: "Compliments.min.js",
+    // What the library name should be, will be used in the browser
+    library: "Compliments",
+    // What type of library we want
     libraryTarget: "umd"
   },
   module: {
+    // We need to add a loader to manage .json files
     loaders: [{
+      // Regexp that matches files that ends with .json
       test: /\.json$/,
-      loader: 'json'
+      // The loader we want to use
+      loader: 'json-loader'
     }]
   }
 };
@@ -504,7 +514,7 @@ $ npm run build
 We will now have a new folder in our project named `umd` where the browser compatible code is.
 
 ### D. Use our module in the browser
-Let's create a `index.html` page that will include our created UMD build as a test.
+Let's create a `demo.html` page that will include our created UMD build as a test.
 
 ```html
 <html>

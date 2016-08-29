@@ -4,8 +4,8 @@
   "description": "nodejs workshop",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "build": "webpack -p"
   },
   "repository": {
     "type": "git",
@@ -22,5 +22,9 @@
   "homepage": "https://github.com/jorgenfar/netlight-node-workshop#readme",
   "dependencies": {
     "slackbots": "^0.5.2"
+  },
+  "devDependencies": {
+    "json-loader": "0.5.4",
+    "webpack": "1.13.2"
   }
 }

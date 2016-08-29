@@ -1,2 +1,4 @@
-node_modules/*
-token.txt
+node_modules
+.DS_Store
+*.log
+umd
