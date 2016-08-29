@@ -167,63 +167,69 @@ Let's create a Slack bot that gives complements as an example.
 We start with creating a list of compliments that our bot can select from.
 
 ```javascript
-// Everything above this line from before will be the same
 const compliments = [
   'You are fantastic!',
   'You are awesome!',
   'Your smile is contagious!',
   'You are an inspiration!'
 ];
-
-bot.on('message', (data) => {
-  // TODO
-});
 ```
 
-### J. Handle the secret Slack token correctly
-The Slack token that we have used in our code is a secret that should NOT be exposed on the internet. This is because it can be used to read potentially all messages that are posted in channels.
-
-A good way to solve this is to use environment variables.
-
-We will begin with updating our code and replacing the Slack token with `process.env.SLACK_TOKEN`.
+Then we create a function to get a specific complement from the array
 
 ```javascript
-const bot = new SlackBot({
-  token: process.env.SLACK_TOKEN,
-  // Replace <BOT_NAME> with the name from step E
-  name: '<BOT_NAME>'
+
+// A simple function that will get a specific compliment in the array
+// The first one will have the index 0
+function get(index) {
+  // Make sure the index is valid, that is inside the array
+  if (index < 0 || index > compliments.length - 1) {
+    throw new RangeError(
+      'The index provided was out of range. Please use a number between 0 and ' + (compliments.length - 1)
+    );
+  }
+
+  return compliments[index];
+}
+```
+
+It's nice that we can get a specific compliment but it would be more useful if we could get a random one. Let's add that functionality now.
+
+Create a function that returns a random number, and use this function to get a random compliment from the compliments array.
+
+```javascript
+function getRandomNumber(min, max) {
+  return min + Math.floor(Math.random() * max);
+}
+
+function random() {
+  return get(
+    getRandomNumber(0, compliments.length-1)
+  );
+}
+```
+_You could of course use a package from npm to do this. An extra task is to replace the implementation above with [unique-random-array](https://www.npmjs.com/package/unique-random-array) or similar._
+
+Finally, we are ready to make our bot give a random complement to a specified user.
+
+```javascript
+bot.on('message', function(data) {
+  // We define a pattern the bot is looking for
+  // In this case it is looking for messages of the form "[Cc]omplement @username"
+  const pattern = /[Cc]ompliment <@(\w+)>/
+  if (data.text && data.text.match(pattern)) {
+    // If the message matches the pattern, the user is extracted from the message
+    const user = data.text.match(pattern)[1];
+
+    if (user) {
+      // The bot gets the user name from the user ID, and attempts to send the user a random complement
+      bot.getUserById(user).then(({ name }) => {
+        bot.postMessageToUser(name, random());
+      });
+    }
+  }
 });
 ```
-
-With this in place we just need a way to set it to the correct token so that our bot still functions. This is a bit difference between Windows and Mac & Linux.
-
-__Windows__
-```bash
-set BOT_API_KEY=<SLACK_TOKEN> & node index.js
-```
-
-__Mac & Linux__
-```bash
-SLACK_TOKEN=<SLACK_TOKEN> node index.js
-```
-
-### K. Push the code
-We have now completed the first version of our little bot and we can go ahead and commit it back to Github by running the following commands in our project from the terminal.
-
-```bash
-$ git add .
-```
-We start with telling git that we want push all files in our project.
-
-```bash
-$ git commit -m "Inital version of the bot"
-```
-We create a commit and add a message that describes what we have done.
-
-```bash
-$ git push origin master
-```
-We push the code to Github.
 
 ## 2. Run the bot in the cloud
 We now have a small little bot that runs on our computer. To make it a bit more practical we would like to run it in the cloud instead so we can turn of our computer.
