@@ -2,7 +2,7 @@ const compliments = require('./compliments.json');
 
 function get(index) {
   if (index < 0 || index > compliments.length -1) {
-    throw new Error('Bad index provided to get()');
+    throw new RangeError('Bad index provided to get()');
   }
   return compliments[index];
 }
