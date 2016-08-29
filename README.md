@@ -174,12 +174,21 @@ const compliments = [
 ]
 
 bot.on('message', (data) => {
-  
+
 });
 ```
 
 ## 2. Run the bot in the cloud
 We now have a small little bot that runs on our computer. To make it a bit more practical we would like to run it in the cloud instead.
+
+### A. Create Heroku account
+Visit https://signup.heroku.com/dc, and sign up for a free Heroku account
+
+### B. Create Heroku app
+In the dashboard, press the 'new' button, and create a new app. Select a name for your app in the cloud, and select Europe as runtime.
+
+### C. Deploy slackbot
+Click on your newly create app and select the 'Deploy' tab. Select Github as deployment method, log into Github in the following popup and find your slackbot repository.
 
 ## 3. Creating a npm package
 Let's say that we see a need to reuse our compliments in some outer place. We will take refactor our project and create a separate module that we will publish as a package to npm.
