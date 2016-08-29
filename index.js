@@ -17,8 +17,11 @@ bot.on('message', function(data) {
   const pattern = /[Cc]ompliment <@(\w+)>/
   if (data.text && data.text.match(pattern)) {
     const user = data.text.match(pattern)[1];
+
     if (user) {
-      bot.postMessageToUser(user, compliments.random());
+      bot.getUserById(user).then(({ name }) => {
+        bot.postMessageToUser(name, compliments.random());
+      });
     }
   }
 });
