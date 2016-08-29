@@ -37,7 +37,7 @@ bot.on('message', function(data) {
   if (data.text && data.text.match(pattern)) {
     const user = data.text.match(pattern)[1];
     if (user) {
-      bot.postMessage(user, compliments.getCompliment());
+      bot.postMessage(user, compliments.getRandom());
     }
   }
 });
