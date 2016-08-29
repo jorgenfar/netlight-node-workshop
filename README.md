@@ -223,7 +223,11 @@ $ git push origin master
 ### G. Deploy slackbot
 Click on your newly create app and select the 'Deploy' tab. Select Github as deployment method, log into Github in the following popup and find your slackbot repository.
 
+  ![Heroku 2](assets/heroku2.png)
+
 Press the 'Enable Automatic Deploys' button, so that each push to master deploys a new version of the slackbot. Trigger a manual deploy now by pressing the 'Deploy Branch' button
+
+  ![Heroku 3](assets/heroku3.png)
 
 Disclaimer: If an app receives no traffic in a 30 minute period, the app will sleep until it receives web traffic.
 
