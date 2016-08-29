@@ -1,9 +1,21 @@
 const compliments = require('./compliments.json');
 
-function random() {
-  return compliments[Math.floor(Math.random()*compliments.length)];
+function get(index) {
+  if (index < 0 || index > compliments.length -1) {
+    throw new RangeError('Bad index provided to get()');
+  }
+  return compliments[index];
+}
+
+function random(min, max) {
+  return min + Math.floor(Math.random() * max);
+}
+
+function getRandom() {
+  return get(random(0, compliments.length-1));
 }
 
 module.exports = {
-  random: random
+  get: get,
+  getRandom: getRandom,
 };

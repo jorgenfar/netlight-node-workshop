@@ -231,8 +231,190 @@ Press the 'Enable Automatic Deploys' button, so that each push to master deploys
 
 Disclaimer: If an app receives no traffic in a 30 minute period, the app will sleep until it receives web traffic.
 
-## 3. Creating a npm package
-Let's say that we see a need to reuse our compliments in some outer place. We will take refactor our project and create a separate module that we will publish as a package to npm.
+## 3. Creating an npm package
+
+Let's say that we see a need to reuse our compliments in some other place. We can refactor our project and create a separate 'compliments'-module that we will publish as a package to npm.
+
+### A. Create a new project
+
+Create a new Github project by repeating steps 1A and 1B. Call your new Github project 'Compliments', (unless you have your own idea for a cool package, in which case feel free).
+
+Create a new npm package by repeating step 1C. Name your package `@<YOUR USER NAME>/compliments`.
+
+### B. Create a static compliments file
+
+Create a new file named `compliments.json` and copy the following into the file:
+
+```javascript
+[
+    "Your smile is contagious.",
+    "You look great today.",
+    "You're a smart cookie.",
+    "I bet you make babies smile.",
+    "You have impeccable manners.",
+    "I like your style.",
+    "You have the best laugh.",
+    "I appreciate you.",
+    "You are the most perfect you there is.",
+    "You are enough.",
+    "You're strong.",
+    "Your perspective is refreshing.",
+    "You're an awesome friend.",
+    "You light up the room.",
+    "You deserve a hug right now.",
+    "You should be proud of yourself.",
+    "You're more helpful than you realize.",
+    "You have a great sense of humor.",
+    "You've got all the right moves!",
+    "Is that your picture next to \"charming\" in the dictionary?",
+    "Your kindness is a balm to all who encounter it.",
+    "You're all that and a super-size bag of chips.",
+    "On a scale from 1 to 10, you're an 11.",
+    "You are brave.",
+    "You're even more beautiful on the inside than you are on the outside.",
+    "You have the courage of your convictions.",
+    "Your eyes are breathtaking.",
+    "If cartoon bluebirds were real, a bunch of them would be sitting on your shoulders singing right now.",
+    "You are making a difference.",
+    "You're like sunshine on a rainy day.",
+    "You bring out the best in other people.",
+    "Your ability to recall random factoids at just the right time is impressive.",
+    "You're a great listener.",
+    "How is it that you always look great, even in sweatpants?",
+    "Everything would be better if more people were like you!",
+    "I bet you sweat glitter.",
+    "You were cool way before hipsters were cool.",
+    "That color is perfect on you.",
+    "Hanging out with you is always a blast.",
+    "You always know -- and say -- exactly what I need to hear when I need to hear it.",
+    "You smell really good.",
+    "You may dance like no one's watching, but everyone's watching because you're an amazing dancer!",
+    "Being around you makes everything better!",
+    "When you say, \"I meant to do that,\" I totally believe you.",
+    "When you're not afraid to be yourself is when you're most incredible.",
+    "Colors seem brighter when you're around.",
+    "You're more fun than a ball pit filled with candy. (And seriously, what could be more fun than that?)",
+    "That thing you don't like about yourself is what makes you so interesting.",
+    "You're wonderful.",
+    "You have cute elbows. For reals! (You're halfway through the list. Don't stop now! You should be giving at least one awesome compliment every day!)",
+    "Jokes are funnier when you tell them.",
+    "You're better than a triple-scoop ice cream cone. With sprinkles.",
+    "Your bellybutton is kind of adorable.",
+    "Your hair looks stunning.",
+    "You're one of a kind!",
+    "You're inspiring.",
+    "If you were a box of crayons, you'd be the giant name-brand one with the built-in sharpener.",
+    "You should be thanked more often. So thank you!!",
+    "Our community is better because you're in it.",
+    "Someone is getting through something hard right now because you've got their back.",
+    "You have the best ideas.",
+    "You always know how to find that silver lining.",
+    "Everyone gets knocked down sometimes, but you always get back up and keep going.",
+    "You're a candle in the darkness.",
+    "You're a great example to others.",
+    "Being around you is like being on a happy little vacation.",
+    "You always know just what to say.",
+    "You're always learning new things and trying to better yourself, which is awesome.",
+    "If someone based an Internet meme on you, it would have impeccable grammar.",
+    "You could survive a Zombie apocalypse.",
+    "You're more fun than bubble wrap.",
+    "When you make a mistake, you fix it.",
+    "Who raised you? They deserve a medal for a job well done.",
+    "You're great at figuring stuff out.",
+    "Your voice is magnificent.",
+    "The people you love are lucky to have you in their lives.",
+    "You're like a breath of fresh air.",
+    "You're gorgeous -- and that's the least interesting thing about you, too.",
+    "You're so thoughtful.",
+    "Your creative potential seems limitless.",
+    "Your name suits you to a T.",
+    "You're irresistible when you blush.",
+    "Actions speak louder than words, and yours tell an incredible story.",
+    "Somehow you make time stop and fly at the same time.",
+    "When you make up your mind about something, nothing stands in your way.",
+    "You seem to really know who you are.",
+    "Any team would be lucky to have you on it.",
+    "In high school I bet you were voted \"most likely to keep being awesome.\"",
+    "I bet you do the crossword puzzle in ink.",
+    "Babies and small animals probably love you.",
+    "If you were a scented candle they'd call it Perfectly Imperfect (and it would smell like summer).",
+    "There's ordinary, and then there's you.",
+    "You're someone's reason to smile.",
+    "You're even better than a unicorn, because you're real.",
+    "How do you keep being so funny and making everyone laugh?",
+    "You have a good head on your shoulders.",
+    "Has anyone ever told you that you have great posture?",
+    "The way you treasure your loved ones is incredible.",
+    "You're really something special.",
+    "You're a gift to those around you."
+  ]
+```
+
+### C. Create a JavaScript file to load a compliment
+
+JSON files can be required and used as plain object in JavaScript.
+
+```javascript
+const compliments = require('./compliments.json');
+
+function get(index) {
+  if (index < 0 || index > compliments.length -1) {
+    throw new RangeError('Bad index provided to get()');
+  }
+  return compliments[index];
+}
+
+module.exports = {
+  get: get,
+};
+```
+
+### D. Create a function to load a random compliment
+
+Create a function that returns a random number, and use this function to get a random compliment from the compliments array.
+
+```javascript
+function random(min, max) {
+  return min + Math.floor(Math.random() * max);
+}
+
+function getRandom() {
+  return get(random(0, compliments.length-1));
+}
+```
+
+Don't forget to also export your new function.
+
+```javascript
+module.exports = {
+  get: get,
+  getRandom: getRandom,
+};
+```
+
+### D. Create a user on npm
+
+If you do not already have an npm user, go to https://www.npmjs.com/signup, and enter your credentials.
+![GitHub 1](assets/npm.png)
+
+### E. Login to your npm user locally
+
+Open your terminal and run `npm login`. Then enter your credentials.
+
+### F. Publish your package
+
+Run `npm publish --access public`, and voila - your package is now available!
+
+### G. Install and use your new package in your Slackbot
+
+Go back to your original Slackbot project, and install your newly created compliments module.
+
+```
+npm install --save @<YOUR USE NAME>/compliments
+```
+
+Now you can `require` your module in your Slackbot. Replace your logic for getting a compliment from an array to instead use your compliments module.
+>>>>>>> dlmr
 
 ## 4. Create a browser version of our package
 We will now go through what we need to do if we want to use our package in the browser and not only in Node.js.
