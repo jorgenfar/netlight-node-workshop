@@ -10,7 +10,7 @@ const bot = new SlackBot({
 
 bot.on('start', function() {
     // define channel, where bot exist. You can adjust it there https://my.slack.com/services
-    bot.postMessageToChannel('general', 'Hello!');
+    bot.postMessageToChannel('general', 'Hello!', { icon_emoji: ':tada:' });
 });
 
 bot.on('message', function(data) {
@@ -18,7 +18,7 @@ bot.on('message', function(data) {
   if (data.text && data.text.match(pattern)) {
     const user = data.text.match(pattern)[1];
     if (user) {
-      bot.postMessage(user, compliments.random());
+      bot.postMessage(user, compliments.random(), { slackbot: false, icon_emoji: ':tada:' });
     }
   }
 });
