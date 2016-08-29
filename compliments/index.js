@@ -26,6 +26,5 @@ function random() {
 
 // Export the functions for others to use
 module.exports = {
-  get: get,
   random: random,
 };
