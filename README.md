@@ -412,6 +412,7 @@ function random() {
   );
 }
 ```
+_You could of course use a package from npm to do this. An extra task is to replace the implementation above with [unique-random-array](https://www.npmjs.com/package/unique-random-array) or similar._
 
 Don't forget to also export your new function.
 
