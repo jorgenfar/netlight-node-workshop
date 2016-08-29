@@ -271,7 +271,18 @@ Add engine with Node.js version to our `package.json`
 
 This will make sure that Heroku will use the latest version of Node.js when running our application.
 
-### F. Push the changes
+### F. Define a Procfile
+
+To describe to Heroku what kind of application we have created, we need to create a `Procfile`.
+
+Create a file named `Procfile` and paste the following into the file:
+```
+worker: node index.js
+```
+
+This will let Heroku know how to start our app.
+
+### G. Push the changes
 Push your changes to Github so that Heroku can deploy our latest changes.
 
 ```bash
@@ -280,7 +291,7 @@ $ git commit -m "Added npm script and engine"
 $ git push origin master
 ```
 
-### G. Deploy our bot
+### H. Deploy our bot
 Click on your newly create app and select the _'Deploy'_ tab. Select Github as deployment method, log into Github in the following popup and find your Slack bot repository.
 
   ![Heroku 2](assets/heroku2.png)
