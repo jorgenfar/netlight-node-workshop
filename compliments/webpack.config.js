@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   // The file that Webpack should load
-  entry: './compliments.js',
+  entry: './index.js',
 
   // Where the output should be placed and named
   output: {
