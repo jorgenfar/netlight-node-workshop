@@ -2,12 +2,6 @@ const SlackBot = require('slackbots');
 
 const compliments = require('./compliments');
 
-function getRandom (max, min) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min) + min);
-}
-
 // create a bot
 const bot = new SlackBot({
     token: process.env.SLACK_TOKEN, // Add a bot https://my.slack.com/services/new/bot and put the token
@@ -24,7 +18,7 @@ bot.on('message', function(data) {
   if (data.text && data.text.match(pattern)) {
     const user = data.text.match(pattern)[1];
     if (user) {
-      bot.postMessage(user, compliments.getRandom());
+      bot.postMessage(user, compliments.random());
     }
   }
 });
