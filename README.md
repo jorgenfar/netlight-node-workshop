@@ -161,58 +161,71 @@ Examples of this can be a bot that:
 See the entire API that `slackbots` provides [here](https://github.com/mishk0/slack-bot-api) for inspiration on what can be done using this type of Slack bots.
 
 Let's create a Slack bot that gives complements as an example.
----
-Added base to build on
----
-We start with creating a list of compliments that our bot will select one at random from and give to a specific user.
+
+We start with creating a list of compliments that our bot can select from.
 
 ```javascript
 // Everything above this line from before will be the same
 const compliments = [
-  'You are beautiful',
-  "Your smile is contagious."
-]
+  'You are fantastic!',
+  'You are awesome!',
+  'Your smile is contagious!',
+  'You are an inspiration!'
+];
 
 bot.on('message', (data) => {
-
+  // TODO
 });
 ```
 
+### J. Handle the secret Slack token correctly
+TODO
+
+### K. Push the code
+TODO
+
 ## 2. Run the bot in the cloud
-We now have a small little bot that runs on our computer. To make it a bit more practical we would like to run it in the cloud instead.
+We now have a small little bot that runs on our computer. To make it a bit more practical we would like to run it in the cloud instead so we can turn of our computer.
 
 ### A. Create Heroku account
-Visit https://signup.heroku.com/dc, and sign up for a free Heroku account
+Visit https://signup.heroku.com/dc, and sign up for a free Heroku account.
 
   ![Heroku](assets/heroku.png)
 
-### B. Create Heroku app
-In the dashboard, press the 'new' button, and create a new app. Select a name for your app in the cloud, and select Europe as runtime.
+### B. Create a new Heroku app
+In the dashboard, press the _'Create New App'_ button, to create a new app. Select a fitting name for your app and select Europe as runtime.
 
-### C. Add slack token
-In setting, press the reveal config vars to see your app's configuration variables.
-Add a key named 'SLACK_TOKEN', and the value of your slackbot API key from step 1E.
+  ![Heroku](assets/herokuNew.png)
 
-### D. Add npm script in package.json
-Lets add an npm script to our package.json so that Heroku can start the app.
+### C. Add Slack Token
+In setting, press the reveal config vars to see your app's configuration variables. Add a key named `SLACK_TOKEN`, and the Slack token from step 1E.
 
-```javascript
-  "scripts": {
-    "start": "node index.js"
-  },
-```
+![Heroku](assets/herokuToken.png)
 
-### E. Specify nodejs version
-Add engine with nodejs version to our package.json
+### D. Add npm script to start the application
+Lets add an npm script to our `package.json` so that Heroku can start the app.
 
-```javascript
-"engines": {
-  "node": "6.0.0"
+```json
+"scripts": {
+  "start": "node index.js"
 },
 ```
 
-### F. Update repository
-Push your changes to Github so that Heroku can deploy with our latest changes
+Now we can start our application using `npm start`.
+
+### E. Specify Node.js version
+Add engine with Node.js version to our `package.json`
+
+```json
+"engines": {
+  "node": ">=6.0.0",
+}
+```
+
+This will make sure that Heroku will use the latest version of Node.js when running our application.
+
+### F. Push the changes
+Push your changes to Github so that Heroku can deploy our latest changes.
 
 ```bash
 $ git add .
@@ -220,30 +233,36 @@ $ git commit -m "Added npm script and engine"
 $ git push origin master
 ```
 
-### G. Deploy slackbot
-Click on your newly create app and select the 'Deploy' tab. Select Github as deployment method, log into Github in the following popup and find your slackbot repository.
+### G. Deploy our bot
+Click on your newly create app and select the _'Deploy'_ tab. Select Github as deployment method, log into Github in the following popup and find your Slack bot repository.
 
   ![Heroku 2](assets/heroku2.png)
 
-Press the 'Enable Automatic Deploys' button, so that each push to master deploys a new version of the slackbot. Trigger a manual deploy now by pressing the 'Deploy Branch' button
+Press the _'Enable Automatic Deploys'_ button, so that each push to master deploys a new version of the bot. Trigger a manual deploy now by pressing the _'Deploy Branch'_ button
 
   ![Heroku 3](assets/heroku3.png)
 
-Disclaimer: If an app receives no traffic in a 30 minute period, the app will sleep until it receives web traffic.
+_Disclaimer: If an app receives no traffic in a 30 minute period, the app will sleep until it receives web traffic._
 
 ## 3. Creating an npm package
-
 Let's say that we see a need to reuse our compliments in some other place. We can refactor our project and create a separate 'compliments'-module that we will publish as a package to npm.
 
-### A. Create a new project
+### A. Create a npm account
+If you do not already have an npm user, go to https://www.npmjs.com/signup, and enter your credentials.
 
+  ![GitHub 1](assets/npm.png)
+
+### B. Create a new project
 Create a new Github project by repeating steps 1A and 1B. Call your new Github project 'Compliments', (unless you have your own idea for a cool package, in which case feel free).
 
-Create a new npm package by repeating step 1C. Name your package `@<YOUR USER NAME>/compliments`.
+Create a new repository and npm package by repeating step 1.A - 1.C. Name your package `@<YOUR NPM USERNAME>/compliments`. By selecting a name that start with your username we will be able to create something that is called a scoped package. This is useful for personal projects like this one.
 
-### B. Create a static compliments file
+### C. Create a static compliments file
+We will create a separate file containing our compliments. We do not need to do this but it will make the code a bit more structured.
 
-Create a new file named `compliments.json` and copy the following into the file:
+Create a new file named `compliments.json`.
+
+You can then go ahead and copy the list below or make your own, only your imagination sets the limits. :)
 
 ```javascript
 [
@@ -350,36 +369,47 @@ Create a new file named `compliments.json` and copy the following into the file:
   ]
 ```
 
-### C. Create a JavaScript file to load a compliment
+### D. Create a JavaScript file to load our compliments
 
-JSON files can be required and used as plain object in JavaScript.
+JSON files can be required and used as plain objects in JavaScript.
 
 ```javascript
+// Will load the compliments as an array
 const compliments = require('./compliments.json');
 
+// A simple function that will get a specific compliment in the array
+// The first one will have the index 0
 function get(index) {
-  if (index < 0 || index > compliments.length -1) {
-    throw new RangeError('Bad index provided to get()');
+  // Make sure the index is valid, that is inside the array
+  if (index < 0 || index > compliments.length - 1) {
+    throw new RangeError(
+      'The index provided was out of range. Please use a number between 0 and ' + (compliments.length - 1)
+    );
   }
+
   return compliments[index];
 }
 
+// Export the get function for others to use
 module.exports = {
-  get: get,
+  get: get
 };
 ```
 
-### D. Create a function to load a random compliment
+### E. Create a function to load a random compliment
+It's nice that we can get a specific compliment but it would be more useful if we could get a random one. Let's add that functionality now.
 
 Create a function that returns a random number, and use this function to get a random compliment from the compliments array.
 
 ```javascript
-function random(min, max) {
+function getRandomNumber(min, max) {
   return min + Math.floor(Math.random() * max);
 }
 
-function getRandom() {
-  return get(random(0, compliments.length-1));
+function random() {
+  return get(
+    getRandomNumber(0, compliments.length-1)
+  );
 }
 ```
 
@@ -388,33 +418,35 @@ Don't forget to also export your new function.
 ```javascript
 module.exports = {
   get: get,
-  getRandom: getRandom,
+  random: random
 };
 ```
 
-### D. Create a user on npm
-
-If you do not already have an npm user, go to https://www.npmjs.com/signup, and enter your credentials.
-![GitHub 1](assets/npm.png)
-
-### E. Login to your npm user locally
-
-Open your terminal and run `npm login`. Then enter your credentials.
-
 ### F. Publish your package
+We need to begin with logging in to npm. Open your terminal and run `npm login` and enter your credentials as requested.
 
-Run `npm publish --access public`, and voila - your package is now available!
+Now that we are logged in we are able to publish our package.
+
+`npm publish --access public`, and voila - your package is now available!
 
 ### G. Install and use your new package in your Slackbot
-
-Go back to your original Slackbot project, and install your newly created compliments module.
+Go back to your original Slack bot project, and install your newly created compliments module.
 
 ```
-npm install --save @<YOUR USE NAME>/compliments
+npm install @<YOUR NPM USERNAME>/compliments --save
 ```
 
-Now you can `require` your module in your Slackbot. Replace your logic for getting a compliment from an array to instead use your compliments module.
->>>>>>> dlmr
+Now you can `require` your module in your Slack bot directly. Replace your logic for getting a compliment from an array to instead use the compliments module.
+
+```javascript
+const { random } = require('@<YOUR NPM USERNAME>/compliments');
+
+
+// Keep the code the same for the most part
+
+// TODO ADD CODE HERE
+
+```
 
 ## 4. Create a browser version of our package
 We will now go through what we need to do if we want to use our package in the browser and not only in Node.js.
