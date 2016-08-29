@@ -184,6 +184,8 @@ We now have a small little bot that runs on our computer. To make it a bit more 
 ### A. Create Heroku account
 Visit https://signup.heroku.com/dc, and sign up for a free Heroku account
 
+  ![Heroku](assets/heroku.png)
+
 ### B. Create Heroku app
 In the dashboard, press the 'new' button, and create a new app. Select a name for your app in the cloud, and select Europe as runtime.
 
