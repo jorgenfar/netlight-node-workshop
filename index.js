@@ -1,6 +1,6 @@
 const SlackBot = require('slackbots');
 
-const compliments = require('./compliments');
+const { random } = require('./compliments');
 
 // create a bot
 const bot = new SlackBot({
@@ -24,7 +24,7 @@ bot.on('message', function(data) {
     if (user) {
       // The bot gets the user name from the user ID, and attempts to send the user a random complement
       bot.getUserById(user).then(({ name }) => {
-        bot.postMessageToUser(name, compliments.random());
+        bot.postMessageToUser(name, random());
       });
     }
   }
