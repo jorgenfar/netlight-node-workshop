@@ -187,8 +187,41 @@ Visit https://signup.heroku.com/dc, and sign up for a free Heroku account
 ### B. Create Heroku app
 In the dashboard, press the 'new' button, and create a new app. Select a name for your app in the cloud, and select Europe as runtime.
 
-### C. Deploy slackbot
+### C. Add slack token
+In setting, press the reveal config vars to see your app's configuration variables.
+Add a key named 'SLACK_TOKEN', and the value of your slackbot API key from step 1E.
+
+### D. Add npm script in package.json
+Lets add an npm script to our package.json so that Heroku can start the app.
+
+```javascript
+  "scripts": {
+    "start": "node index.js"
+  },
+```
+
+### E. Specify nodejs version
+Add engine with nodejs version to our package.json
+
+```javascript
+"engines": {
+  "node": "6.0.0"
+},
+```
+
+### F. Update repository
+Push your changes to Github so that Heroku can deploy with our latest changes
+
+```bash
+$ git add .
+$ git commit -m "Added npm script and engine"
+$ git push origin master
+```
+
+### G. Deploy slackbot
 Click on your newly create app and select the 'Deploy' tab. Select Github as deployment method, log into Github in the following popup and find your slackbot repository.
+
+Disclaimer: If an app receives no traffic in a 30 minute period, the app will sleep until it receives web traffic.
 
 ## 3. Creating a npm package
 Let's say that we see a need to reuse our compliments in some outer place. We will take refactor our project and create a separate module that we will publish as a package to npm.
@@ -231,6 +264,7 @@ Add a npm script in `package.json` to make it easier to build our project.
 ```json
 ...
 "scripts": {
+  "start": "node index.js",
   "build": "webpack -p"
 },
 ...
