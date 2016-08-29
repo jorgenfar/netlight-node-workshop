@@ -423,6 +423,18 @@ JSON files can be required and used as plain objects in JavaScript.
 ```javascript
 // Will load the compliments as an array
 const compliments = require('./compliments.json');
+```
+
+### E. Refactor your code
+
+Now, to clearly seperate our logic, we can move our code to get a random compliment into the same file as where we load `compliments.json`.
+We call this file  `compliments.js`. This file will be the content of our npm package, along with `compliments.json`.
+
+It is important that we remember to export the random function.
+
+```javascript
+// Will load the compliments as an array
+const compliments = require('./compliments.json');
 
 // A simple function that will get a specific compliment in the array
 // The first one will have the index 0
@@ -437,18 +449,6 @@ function get(index) {
   return compliments[index];
 }
 
-// Export the get function for others to use
-module.exports = {
-  get: get
-};
-```
-
-### E. Create a function to load a random compliment
-It's nice that we can get a specific compliment but it would be more useful if we could get a random one. Let's add that functionality now.
-
-Create a function that returns a random number, and use this function to get a random compliment from the compliments array.
-
-```javascript
 function getRandomNumber(min, max) {
   return min + Math.floor(Math.random() * max);
 }
@@ -458,16 +458,12 @@ function random() {
     getRandomNumber(0, compliments.length-1)
   );
 }
-```
-_You could of course use a package from npm to do this. An extra task is to replace the implementation above with [unique-random-array](https://www.npmjs.com/package/unique-random-array) or similar._
 
-Don't forget to also export your new function.
-
-```javascript
+// Export the functions for others to use
 module.exports = {
-  get: get,
-  random: random
+  random: random,
 };
+
 ```
 
 ### F. Publish your package
@@ -488,13 +484,8 @@ Now you can `require` your module in your Slack bot directly. Replace your logic
 
 ```javascript
 const { random } = require('@<YOUR NPM USERNAME>/compliments');
-
-
-// Keep the code the same for the most part
-
-// TODO ADD CODE HERE
-
 ```
+This can then be used directly in our function to handle messages (`bot.on('message', function(data) { ...`) without changing anything.
 
 ## 4. Create a browser version of our package
 We will now go through what we need to do if we want to use our package in the browser and not only in Node.js.
