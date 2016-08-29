@@ -1,6 +1,5 @@
 const SlackBot = require('slackbots');
 
-const starwars = require('./starwars');
 const compliments = require('./compliments');
 
 function getRandom (max, min) {
@@ -18,18 +17,6 @@ const bot = new SlackBot({
 bot.on('start', function() {
     // define channel, where bot exist. You can adjust it there https://my.slack.com/services
     bot.postMessageToChannel('general', 'Hello!');
-});
-
-/**
- * @param {object} data
- */
-bot.on('message', function(data) {
-    if (data.text === 'starwars') {
-      var randomNumber = getRandom(starwars.length - 1, 0);
-      bot.postMessageToUser('<ADD_YOUR_USERNAME>', starwars[randomNumber]).always(function(data) {
-        console.log(data);
-      });
-    }
 });
 
 bot.on('message', function(data) {
