@@ -182,13 +182,13 @@ bot.on('message', (data) => {
 We now have a small little bot that runs on our computer. To make it a bit more practical we would like to run it in the cloud instead.
 
 ## 3. Creating an npm package
-Let's say that we see a need to reuse our compliments in some outer place. We will take refactor our project and create a separate module that we will publish as a package to npm.
+Let's say that we see a need to reuse our compliments in some other place. We take refactor our project and create a separate 'compliments'-module that we will publish as a package to npm.
 
-### A. Create a new git repository
+### A. Create a new project
 
 Create a new Github project by repeating steps 1A and 1B. Call your new Github project 'Compliments', (unless you have your own idea for a cool package, in which case feel free).
 
-Create a new npm project by repeating step 1C. Name your package `@<YOUR_USER_NAME>/compliments`.
+Create a new npm project by repeating step 1C. Name your package `@<YOUR USER NAME>/compliments`.
 
 ### B. Create a static compliments file
 
@@ -299,26 +299,42 @@ Create a new file named `compliments.json` and copy the following into the file:
   ]
 ```
 
-### C. Create a Javascript file to load a random compliment
+### C. Create a JavaScript file to load a compliment
+
+JSON files can be required and used as plain object in JavaScript.
 
 ```javascript
 const compliments = require('./compliments.json');
 
 function get(index) {
   if (index < 0 || index > compliments.length -1) {
-    throw new Error('Bad index provided to get()');
+    throw new RangeError('Bad index provided to get()');
   }
   return compliments[index];
 }
 
+module.exports = {
+  get: get,
+};
+```
+
+### D. Create a function to load a random compliment
+
+Create a function that returns a random number, and use this function to get a random compliment from the compliments array.
+
+```javascript
 function random(min, max) {
-  return min + Math.floor(Math.random() * max)];
+  return min + Math.floor(Math.random() * max);
 }
 
 function getRandom() {
   return get(random(0, compliments.length-1));
 }
+```
 
+Don't forget to also export your new function.
+
+```javascript
 module.exports = {
   get: get,
   getRandom: getRandom,
@@ -337,6 +353,17 @@ Open your terminal and run `npm login`. Then enter your credentials.
 ### F. Publish your package
 
 Run `npm publish --access public`, and voila - your package is now available!
+
+### G. Install and use your new package in your Slackbot
+
+Go back to your original Slackbot project, and install your newly created compliments module.
+
+```
+npm install --save @<YOUR USE NAME>/compliments
+```
+
+Now you can `require` your module in your Slackbot. Replace your logic for getting a compliment from an array to instead use your compliments module.
+
 
 ## 4. Create a browser version of our package
 We will now go through what we need to do if we want to use our package in the browser and not only in Node.js.
