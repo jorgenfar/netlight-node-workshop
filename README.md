@@ -181,10 +181,49 @@ bot.on('message', (data) => {
 ```
 
 ### J. Handle the secret Slack token correctly
-TODO
+The Slack token that we have used in our code is a secret that should NOT be exposed on the internet. This is because it can be used to read potentially all messages that are posted in channels.
+
+A good way to solve this is to use environment variables.
+
+We will begin with updating our code and replacing the Slack token with `process.env.SLACK_TOKEN`.
+
+```javascript
+const bot = new SlackBot({
+  token: process.env.SLACK_TOKEN,
+  // Replace <BOT_NAME> with the name from step E
+  name: '<BOT_NAME>'
+});
+```
+
+With this in place we just need a way to set it to the correct token so that our bot still functions. This is a bit difference between Windows and Mac & Linux.
+
+__Windows__
+```bash
+set BOT_API_KEY=<SLACK_TOKEN> & node index.js
+```
+
+__Mac & Linux__
+```bash
+SLACK_TOKEN=<SLACK_TOKEN> node index.js
+```
 
 ### K. Push the code
-TODO
+We have now completed the first version of our little bot and we can go ahead and commit it back to Github by running the following commands in our project from the terminal.
+
+```bash
+$ git add .
+```
+We start with telling git that we want push all files in our project.
+
+```bash
+$ git commit -m "Inital version of the bot"
+```
+We create a commit and add a message that describes what we have done.
+
+```bash
+$ git push origin master
+```
+We push the code to Github.
 
 ## 2. Run the bot in the cloud
 We now have a small little bot that runs on our computer. To make it a bit more practical we would like to run it in the cloud instead so we can turn of our computer.
