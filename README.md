@@ -39,6 +39,8 @@ and can be used to specify npm scrips. It also serves as documentation to some e
 
 Remember, Node.js needs to be installed before this will work, as npm is packaged with it.
 
+__Tip__: Add `"private": true` in the `package.json` to make sure we do not publish our bot by mistake.
+
 ### D. Add our first piece of code
 Let's write our first piece of code, a classical Hello World.
 
