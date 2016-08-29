@@ -18,7 +18,7 @@ bot.on('message', function(data) {
   if (data.text && data.text.match(pattern)) {
     const user = data.text.match(pattern)[1];
     if (user) {
-      bot.postMessageToUser('gustaf', compliments.random(), { icon_emoji: ':tada:' });
+      bot.postMessageToUser(user, compliments.random());
     }
   }
 });
