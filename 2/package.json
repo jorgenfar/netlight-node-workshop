@@ -10,7 +10,7 @@
   "repository": "https://github.com/jorgenfar/netlight-node-workshop",
   "author": "Netlight AS",
   "engines": {
-    "node": ">=6.0.0",
+    "node": ">=6.0.0"
   },
   "license": "MIT",
   "bugs": {
