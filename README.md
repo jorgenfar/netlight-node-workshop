@@ -175,56 +175,32 @@ const compliments = [
 ];
 ```
 
-Then we create a function to get a specific complement from the array
+Awesome! Now we we are ready to make our bot give a complement to a specified user.
 
 ```javascript
+// The current compliment
+let currentCompliment = 0;
 
-// A simple function that will get a specific compliment in the array
-// The first one will have the index 0
-function get(index) {
-  // Make sure the index is valid, that is inside the array
-  if (index < 0 || index > compliments.length - 1) {
-    throw new RangeError(
-      'The index provided was out of range. Please use a number between 0 and ' + (compliments.length - 1)
-    );
-  }
-
-  return compliments[index];
-}
-```
-
-It's nice that we can get a specific compliment but it would be more useful if we could get a random one. Let's add that functionality now.
-
-Create a function that returns a random number, and use this function to get a random compliment from the compliments array.
-
-```javascript
-function getRandomNumber(min, max) {
-  return min + Math.floor(Math.random() * max);
-}
-
-function random() {
-  return get(
-    getRandomNumber(0, compliments.length-1)
-  );
-}
-```
-_You could of course use a package from npm to do this. An extra task is to replace the implementation above with [unique-random-array](https://www.npmjs.com/package/unique-random-array) or similar._
-
-Finally, we are ready to make our bot give a random complement to a specified user.
-
-```javascript
 bot.on('message', function(data) {
-  // We define a pattern the bot is looking for
+  // We define a RegExp pattern the bot is looking for
   // In this case it is looking for messages of the form "[Cc]omplement @username"
+  // The [Cc] means that we accept the message to start with either a large C or a small c.
   const pattern = /[Cc]ompliment <@(\w+)>/
   if (data.text && data.text.match(pattern)) {
-    // If the message matches the pattern, the user is extracted from the message
+    // If the message matches the pattern, the user ID is extracted from the message
     const user = data.text.match(pattern)[1];
 
     if (user) {
       // The bot gets the user name from the user ID, and attempts to send the user a random complement
       bot.getUserById(user).then(({ name }) => {
-        bot.postMessageToUser(name, random());
+        bot.postMessageToUser(name, compliments[currentCompliment]);
+        currentCompliment =
+          // We increase the current compliment with one
+          (currentCompliment + 1 )
+          // We are suing modulus here
+          // It will make sure we never go outside of the array size
+          // This will result in the following pattern with out current array 0, 1, 2, 3, 0, 1, 2, 3, 0, ...
+          % compliments.length;
       });
     }
   }
@@ -436,12 +412,12 @@ JSON files can be required and used as plain objects in JavaScript.
 const compliments = require('./compliments.json');
 ```
 
-### E. Refactor your code
+### E. Add logic
 
-Now, to clearly seperate our logic, we can move our code to get a random compliment into the same file as where we load `compliments.json`.
-We call this file  `compliments.js`. This file will be the content of our npm package, along with `compliments.json`.
+Now, to clearly separate our logic, we can move our code to get a compliment into the same file as where we load `compliments.json`.
+We call this file  `index.js`. This file will be the our npm package, along with `compliments.json`.
 
-It is important that we remember to export the random function.
+It is important that we remember to export the functions that we want to use in other places.
 
 ```javascript
 // Will load the compliments as an array
@@ -472,10 +448,12 @@ function random() {
 
 // Export the functions for others to use
 module.exports = {
+  get: get,
   random: random,
 };
-
 ```
+
+_You could of course use a package from npm to do this. An extra task is to replace the implementation above with [unique-random-array](https://www.npmjs.com/package/unique-random-array) or similar._
 
 ### F. Publish your package
 We need to begin with logging in to npm. Open your terminal and run `npm login` and enter your credentials as requested.
@@ -496,7 +474,14 @@ Now you can `require` your module in your Slack bot directly. Replace your logic
 ```javascript
 const { random } = require('@<YOUR NPM USERNAME>/compliments');
 ```
-This can then be used directly in our function to handle messages (`bot.on('message', function(data) { ...`) without changing anything.
+We can now update the code for our bot to use this random function and remove the now deprecated code to generate a compliment.
+
+```javascript
+// We will now get a random compliment from our module
+bot.getUserById(user).then(({ name }) => {
+  bot.postMessageToUser(name, random());
+});
+```
 
 ## 4. Create a browser version of our package
 We will now go through what we need to do if we want to use our package in the browser and not only in Node.js.
@@ -515,7 +500,7 @@ const path = require('path');
 
 module.exports = {
   // The file that Webpack should load
-  entry: './compliments.js',
+  entry: './index.js',
 
   // Where the output should be placed and named
   output: {
@@ -608,3 +593,5 @@ $ npm publish
 
 ### F. Replace our local reference with a CDN
 If we would like to use this module in a website we might want to use a CDN to do this. A prefect match for us is [npmcdn.com](https://npmcdn.com) since we have published our code to npm.
+
+We can get our UMD bundle at: `https://npmcdn.com/@username/compliments@1.1.0/umd/Compliments.js`
