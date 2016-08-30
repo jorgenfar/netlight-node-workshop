@@ -288,7 +288,7 @@ Add engine with Node.js version to our `package.json`
 
 ```json
 "engines": {
-  "node": ">=6.0.0",
+  "node": ">=6.0.0"
 }
 ```
 
