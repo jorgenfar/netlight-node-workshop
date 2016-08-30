@@ -1,0 +1,17 @@
+{
+  "name": "@username/compliments",
+  "version": "1.0.0",
+  "description": "Compliments as a service",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "umd"
+  ],
+  "repository": "https://github.com/jorgenfar/netlight-node-workshop",
+  "author": "Netlight AS",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jorgenfar/netlight-node-workshop/issues"
+  },
+  "homepage": "https://github.com/jorgenfar/netlight-node-workshop#readme"
+}

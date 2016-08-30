@@ -1,17 +1,11 @@
 {
-  "name": "netlight-node-workshop",
+  "name": "my-slack-bot",
   "version": "1.0.0",
   "private": true,
-  "description": "Slack bot",
+  "description": "My Slack bot",
   "main": "index.js",
-  "scripts": {
-    "start": "node index.js"
-  },
   "repository": "https://github.com/jorgenfar/netlight-node-workshop",
   "author": "Netlight AS",
-  "engines": {
-    "node": "6.0.0"
-  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/jorgenfar/netlight-node-workshop/issues"
