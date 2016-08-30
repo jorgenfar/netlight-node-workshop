@@ -59,6 +59,8 @@ $ node index.js
 _We did not need to create the `package.json` to be able to do this but it will be of use to use a little later._
 
 ### E. Get API Token for Slack
+First create an account for the Slack here: https://netlight-nodeworkshop.slack.com/signup
+
 We now have the base from which we can create our Slack bot. One key thing that we need before continuing is an API token that can be used by our bot to communicate with Slack.
 
 Go to https://netlight-nodeworkshop.slack.com/services/new/bot and select a name for your bot.
