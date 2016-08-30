@@ -1,4 +1,21 @@
 # Netlight Node Workshop
+The completed code for each step can be found in the directories named 1 - 4.
+
+This workshop assumes that you have the following installed on your computer.
+
+__Node.js__  
+The text below assumes that you have installed at least version 6.0 of Node.js.
+
+You can check the version you have installed currently with `node -v` and download it at https://nodejs.org
+
+__Git__  
+You will need `git` and it can be downloaded at https://git-scm.com/
+
+__An editor__  
+Some editor to write code with. A good alternative is to use [Atom](https://atom.io).
+
+__GitHub__  
+An account on [GitHub.com](https://github.com).
 
 ## 1. Create a Slack-bot
 ### A. Create a new empty project
@@ -164,7 +181,7 @@ Examples of this can be a bot that:
 
 See the entire API that `slackbots` provides [here](https://github.com/mishk0/slack-bot-api) for inspiration on what can be done using this type of Slack bots.
 
-Let's create a Slack bot that gives complements as an example.
+Let's create a Slack bot that gives compliments as an example.
 
 We start with creating a list of compliments that our bot can select from.
 
@@ -185,7 +202,7 @@ let currentCompliment = 0;
 
 bot.on('message', function(data) {
   // We define a RegExp pattern the bot is looking for
-  // In this case it is looking for messages of the form "[Cc]omplement @username"
+  // In this case it is looking for messages of the form "[Cc]ompliment @username"
   // The [Cc] means that we accept the message to start with either a large C or a small c.
   const pattern = /[Cc]ompliment <@(\w+)>/
   if (data.text && data.text.match(pattern)) {
@@ -201,7 +218,7 @@ bot.on('message', function(data) {
           (currentCompliment + 1 )
           // We are suing modulus here
           // It will make sure we never go outside of the array size
-          // This will result in the following pattern with out current array 0, 1, 2, 3, 0, 1, 2, 3, 0, ...
+          // This will result in the following pattern with our current array 0, 1, 2, 3, 0, 1, 2, 3, 0, ...
           % compliments.length;
       });
     }
@@ -496,7 +513,7 @@ function random() {
 // Export the functions for others to use
 module.exports = {
   get: get,
-  random: random,
+  random: random
 };
 ```
 
@@ -531,7 +548,7 @@ bot.getUserById(user).then(({ name }) => {
 ```
 
 ## 4. Create a browser version of our package
-We will now go through what we need to do if we want to use our package in the browser and not only in Node.js.
+We will now go through what we need to do if we want to use our package in the browser and not only in Node.js. All of these steps should be done in the new project that we created in 3.
 
 ### A. Add Webpack to our project
 We begin with adding Webpack and `json-loader` to our project that will manage the JavaScript and JSON for us.
@@ -641,4 +658,4 @@ $ npm publish
 ### F. Replace our local reference with a CDN
 If we would like to use this module in a website we might want to use a CDN to do this. A prefect match for us is [npmcdn.com](https://npmcdn.com) since we have published our code to npm.
 
-We can get our UMD bundle at: `https://npmcdn.com/@username/compliments@1.1.0/umd/Compliments.js`
+We can get our UMD bundle at: `https://npmcdn.com/@username/compliments@1.1.0/umd/Compliments.min.js`

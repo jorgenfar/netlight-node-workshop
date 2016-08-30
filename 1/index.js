@@ -24,7 +24,7 @@ let currentCompliment = 0;
 
 bot.on('message', function(data) {
   // We define a RegExp pattern the bot is looking for
-  // In this case it is looking for messages of the form "[Cc]omplement @username"
+  // In this case it is looking for messages of the form "[Cc]ompliment @username"
   // The [Cc] means that we accept the message to start with either a large C or a small c.
   const pattern = /[Cc]ompliment <@(\w+)>/
   if (data.text && data.text.match(pattern)) {
@@ -38,9 +38,9 @@ bot.on('message', function(data) {
         currentCompliment =
           // We increase the current compliment with one
           (currentCompliment + 1 )
-          // We are suing modulus here
+          // We are using modulus here
           // It will make sure we never go outside of the array size
-          // This will result in the following pattern with out current array 0, 1, 2, 3, 0, 1, 2, 3, 0, ...
+          // This will result in the following pattern with our current array 0, 1, 2, 3, 0, 1, 2, 3, 0, ...
           % compliments.length;
       });
     }

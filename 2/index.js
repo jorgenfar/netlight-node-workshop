@@ -38,9 +38,9 @@ bot.on('message', function(data) {
         currentCompliment =
           // We increase the current compliment with one
           (currentCompliment + 1 )
-          // We are suing modulus here
+          // We are using modulus here
           // It will make sure we never go outside of the array size
-          // This will result in the following pattern with out current array 0, 1, 2, 3, 0, 1, 2, 3, 0, ...
+          // This will result in the following pattern with our current array 0, 1, 2, 3, 0, 1, 2, 3, 0, ...
           % compliments.length;
       });
     }
