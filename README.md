@@ -607,4 +607,4 @@ $ npm publish
 ```
 
 ### F. Replace our local reference with a CDN
-If we would like to use this module in a website we might want to use a CDN to do this. A prefect match for us is [npmcdn.com](https://npmcdn.com) since we have published our code to npm.
+If we would like to use this module in a website we might want to use a CDN to do this. A prefect match for us is [unpkg.com](https://unpkg.com) since we have published our code to npm.
