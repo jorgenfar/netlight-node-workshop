@@ -17,7 +17,7 @@ Some editor to write code with. A good alternative is to use [Atom](https://atom
 __GitHub__  
 An account on [GitHub.com](https://github.com).
 
-## 1. Create a Slack-bot
+## 1. Create a Slack bot
 ### A. Create a new empty project
 
 1. Go to https://github.com.  
@@ -59,9 +59,9 @@ Remember, Node.js needs to be installed before this will work, as npm is package
 __Tip__: Add `"private": true` in the `package.json` to make sure we do not publish our bot by mistake.
 
 ### D. Add our first piece of code
-Let's write our first piece of code, a classical Hello World.
+Let's write our first piece of code, a classic "Hello World" application.
 
-Open your preferred editor and create a new file named `index.js` in the root of the project. When the file has been created add the following code to it.
+Open your preferred editor and create a new file named `index.js` in the root directory of the project. When the file has been created, add the following code to it.
 
 ```javascript
 console.log('Hello World');
@@ -99,9 +99,9 @@ Let's now install a dependency that we can use to make it easier to create a Sla
 $ npm install slackbots --save
 ```
 
-The dependency will now be added to your project and by using `--save` we will also add it to our `package.json`.
+The dependency will now be added to your project and by using `--save`, we will also add it to our `package.json`.
 
-You will now see that a new folder have been created in your project, `node_modules`. It is inside this folder that Node.js will store the dependencies that are used in the project.
+You will now see that a new folder has been created in your project, `node_modules`. It is inside this folder that Node.js will store the dependencies that are used in the project.
 
 You can find more packages at [npmjs.org](httsp://npmjs.org).
 
@@ -124,7 +124,7 @@ const bot = new SlackBot({
 // This will be invoked when our bot has connected to Slack
 bot.on('start', () => {
   // Define channel, where bot exist.
-  // You can adjust it there https://my.slack.com/services
+  // You can adjust it here: https://my.slack.com/services
   bot.postMessageToChannel(
     // We select a channel that our bot should write to
     'general',
@@ -137,7 +137,7 @@ bot.on('start', () => {
 We can now start our bot by running `node index.js` again.
 
 ### H. Make our bot interactive
-Yay, we now have a bot. But let's be honest here, it is not very exiting. We will now add some interactivity to it, making it respond to messages that are posted.
+Yay, we now have a bot. But let's be honest here, it is not very exciting. We will now add some interactivity to it, making it respond to messages that are posted.
 
 We will start with inviting it to a channel that we want the bot to interact with. We do this by writing `/invite @<BOT_NAME>` in the channel we want our bot in. With that done we can go ahead and update the code. Let's start with removing that it always writes a message when it starts. We will now instead change it to post to our own user so we now that it has been started correctly and then make it listen and respond to messages.
 
@@ -162,28 +162,28 @@ bot.on('message', (data) => {
   // data.channel contains the channel id
   // data.user contains the user id
 
-  // When the bot sees a message that is exactly ping
+  // When the bot sees a message that is exactly "ping"
   if (data.text === 'ping') {
-    // It will answer with pong
+    // It will answer with "pong"
     bot.postMessage(data.channel, 'pong');
   }
 });
 ```
 
 ### I. Make it more complex
-We now have the basic building blocks to improve our bot making it do more useful things.
+We now have the basic building blocks to improve our bot, making it do more useful things.
 
 Examples of this can be a bot that:
-- giving suggestions on places to eat
-- giving compliments to other users
-- match consultants that want to eat lunch with each other
-- give information about the weather
+- gives suggestions on places to eat
+- gives compliments to other users
+- matches consultants that want to eat lunch with each other
+- gives information about the weather
 
-See the entire API that `slackbots` provides [here](https://github.com/mishk0/slack-bot-api) for inspiration on what can be done using this type of Slack bots.
+See the entire API that `slackbots` provides [here](https://github.com/mishk0/slack-bot-api) for inspiration on what can be done using this type of Slack bot.
 
 Let's create a Slack bot that gives compliments as an example.
 
-We start with creating a list of compliments that our bot can select from.
+We start by creating a list of compliments that our bot can select from.
 
 ```javascript
 const compliments = [
@@ -203,20 +203,20 @@ let currentCompliment = 0;
 bot.on('message', function(data) {
   // We define a RegExp pattern the bot is looking for
   // In this case it is looking for messages of the form "[Cc]ompliment @username"
-  // The [Cc] means that we accept the message to start with either a large C or a small c.
+  // The [Cc] means that we accept the message to start with either a capital C or a lowercase c.
   const pattern = /[Cc]ompliment <@(\w+)>/
   if (data.text && data.text.match(pattern)) {
     // If the message matches the pattern, the user ID is extracted from the message
     const user = data.text.match(pattern)[1];
 
     if (user) {
-      // The bot gets the user name from the user ID, and attempts to send the user a random complement
+      // The bot gets the user name from the user ID, and attempts to send the user a random compliment
       bot.getUserById(user).then(({ name }) => {
         bot.postMessageToUser(name, compliments[currentCompliment]);
         currentCompliment =
           // We increase the current compliment with one
           (currentCompliment + 1 )
-          // We are suing modulus here
+          // We are using modulo here
           // It will make sure we never go outside of the array size
           // This will result in the following pattern with our current array 0, 1, 2, 3, 0, 1, 2, 3, 0, ...
           % compliments.length;
@@ -254,7 +254,7 @@ SLACK_TOKEN=<SLACK_TOKEN> node index.js
 ```
 
 ### K. Push the code
-We have now completed the first version of our little bot and we can go ahead and commit it back to Github by running the following commands in our project from the terminal.
+We have now completed the first version of our little bot and we can go ahead and commit it back to Github, by running the following commands in our project from the terminal.
 
 ```bash
 $ git add .
@@ -274,7 +274,7 @@ We push the code to Github.
 ## 2. Run the bot in the cloud
 We now have a small little bot that runs on our computer. To make it a bit more practical we would like to run it in the cloud instead so we can turn of our computer.
 
-### A. Create Heroku account
+### A. Create a Heroku account
 Visit https://signup.heroku.com/dc, and sign up for a free Heroku account.
 
   ![Heroku](assets/heroku.png)
@@ -290,7 +290,7 @@ In setting, press the reveal config vars to see your app's configuration variabl
 ![Heroku](assets/herokuToken.png)
 
 ### D. Add npm script to start the application
-Lets add an npm script to our `package.json` so that Heroku can start the app.
+Lets add an npm script to our `package.json` so that Heroku can start our app.
 
 ```json
 "scripts": {
